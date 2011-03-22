@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical" android:background="@drawable/appwidget_bg" android:padding="12dp">
+	<TextView android:id="@+id/textView1" android:layout_height="wrap_content"
+		android:text="Do you have your period today?" android:layout_width="fill_parent" android:layout_marginLeft="5dp" android:layout_marginTop="5dp"></TextView>
+	<TextView android:id="@+id/widget_text" android:layout_height="wrap_content"
+		android:visibility="gone"
+		android:text="You have already answered the question for this day." android:layout_width="fill_parent" android:layout_marginLeft="5dp" android:layout_marginTop="5dp"></TextView>
+	<LinearLayout android:layout_height="wrap_content"
+		android:layout_width="fill_parent" android:id="@+id/linearLayout1" android:gravity="center">
+		<Button android:id="@+id/widget_yes" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="Yes" android:minWidth="130dp" android:drawableLeft="@drawable/yes"></Button>
+		<Button android:id="@+id/widget_no" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="No" android:drawableRight="@drawable/no" android:minWidth="130dp"></Button>
+	</LinearLayout>
+</LinearLayout>

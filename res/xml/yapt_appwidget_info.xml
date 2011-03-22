@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider
+  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="294dp"
+    android:minHeight="72dp"    
+	android:updatePeriodMillis="3600000"
+    android:initialLayout="@layout/yapt_appwidget"
+    android:configure="com.bikeonet.android.periodtracker.YAPTAppWidgetConfigure"  >
+    
+	<!-- 86400000 once per day -->    
+  	<!-- 10000 every 10 sec -->
+  	<!-- 900000 every 15 sec -->
+  	<!-- 3600000 every hour -->
+  	<!-- 28800000 three times a day -->
+</appwidget-provider>

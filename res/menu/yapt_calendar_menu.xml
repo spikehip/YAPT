@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/calendar_menu_removeall" android:icon="@drawable/no" android:title="remove all"></item>
+    <item android:id="@+id/calendar_menu_settings" android:icon="@drawable/wrench" android:title="settings"></item>
+    <item android:id="@+id/calendar_menu_about" android:icon="@drawable/icon" android:title="about"></item>
+</menu>

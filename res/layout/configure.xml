@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical">
+    <TextView android:id="@+id/textView1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="How many times a day should the widget nag you for input?"></TextView>
+	<SeekBar android:layout_height="wrap_content"
+		android:layout_width="fill_parent" android:id="@+id/seekBar1"
+		android:max="86400000"></SeekBar>
+	<TextView android:id="@+id/textView2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="On the calendar view do you want the non-period days to be shown?"></TextView>
+	<LinearLayout android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:id="@+id/linearLayout1"
+		android:orientation="horizontal">
+			<CheckBox android:id="@+id/check0"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:checked="true" android:text="Yes"></CheckBox>
+	</LinearLayout>
+	<Button android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Save" android:id="@+id/configure_savebutton"></Button>
+</LinearLayout>
