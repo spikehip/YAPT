@@ -1,5 +1,7 @@
 package com.bikeonet.android.periodtracker;
 
+import com.bikeonet.android.periodtracker.util.ConfigurePreferences;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +12,8 @@ public class ConfigureActivity extends Activity {
 
 	private SeekBar seekBar ;
 	private CheckBox radio;
+	private CheckBox sound;
+	private CheckBox vibrate;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +25,9 @@ public class ConfigureActivity extends Activity {
 		findViewById(R.id.configure_savebutton).setOnClickListener(saveOnClick);
 		seekBar = (SeekBar) findViewById(R.id.seekBar1);
 		radio = (CheckBox) findViewById(R.id.check0);
-		cp.loadPreferences(seekBar, radio);
+		sound = (CheckBox) findViewById(R.id.config_soundCheck1);
+		vibrate = (CheckBox) findViewById(R.id.config_vibrateCheck1);
+		cp.loadPreferences(seekBar, radio, sound, vibrate);
 		
 		
 	}
@@ -33,7 +39,7 @@ public class ConfigureActivity extends Activity {
 
     		//save preferences     		
 			ConfigurePreferences cp = new ConfigurePreferences(ConfigureActivity.this);
-    		cp.savePreferences(seekBar.getProgress(), radio.isChecked());
+    		cp.savePreferences(seekBar.getProgress(), radio.isChecked(), sound.isChecked(), vibrate.isChecked());
     		
 			ConfigureActivity.this.finish();
 			

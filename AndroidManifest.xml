@@ -14,7 +14,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-		<receiver android:name="YAPTAppWidgetProvider" >
+		<receiver android:name=".widget.YAPTAppWidgetProvider" >
 		    <intent-filter>
 		        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
 		    </intent-filter>
@@ -28,7 +28,8 @@
 		</activity>
 		<activity android:name="AboutActivity"></activity>
 		<activity android:name="ConfigureActivity"></activity>
-		<service android:name="InsertService"></service>
-		<service android:name="UpdateService"></service>
+		<activity android:name="DetailsActivity"></activity>
+		<service android:name=".service.InsertService"></service>
+		<service android:name=".service.UpdateService"></service>
     </application>
 </manifest>

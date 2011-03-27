@@ -1,75 +1,84 @@
 package com.bikeonet.android.periodtracker;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
-public class YAPTActivity extends Activity {
+import com.bikeonet.android.periodtracker.entity.PeriodEntity;
+import com.bikeonet.android.periodtracker.util.ConfigurePreferences;
+import com.bikeonet.android.periodtracker.util.DataHelper;
 
-    private static LayoutParams lparam2 = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT, 1);
+public class YAPTActivity extends ListActivity {
 	
     public static final String ACTION_WIDGET_YES = "com.bikeonet.android.periodtracker.widget.yes";
     public static final String ACTION_WIDGET_NO = "com.bikeonet.android.periodtracker.widget.no";
+    public static final String EXTRA_PERIODENTITY_ID = "com.bikeonet.android.periodtracker.periodentity.id";
+
+    private ArrayList<String> stringContent = new ArrayList<String>();
+    private List<PeriodEntity> periodList;
     
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {    	
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+
+        ListView listView = getListView();
+        listView.setTextFilterEnabled(true);
         
         updateContents();
-                
+
+        setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, stringContent));
+        
+        listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
+				PeriodEntity p  = YAPTActivity.this.getPeriodById(position);
+				Toast.makeText(getApplicationContext(), p.getTs_dateString(), Toast.LENGTH_LONG).show();
+				
+				Intent intent = new Intent(YAPTActivity.this, DetailsActivity.class);
+				//set intent extras
+				intent.putExtra(EXTRA_PERIODENTITY_ID, p.getId());
+				YAPTActivity.this.startActivity(intent);
+			}
+		});
     }
 
-    private void updateContents() {
-        LinearLayout lines = (LinearLayout) findViewById(R.id.main_linearLayout1);
-        lines.removeAllViews();
+    protected PeriodEntity getPeriodById(int position) {
+		// TODO Auto-generated method stub
+		return periodList.get(position);
+	}
+
+	private void updateContents() {
+    			
         DataHelper dh = new DataHelper(getApplicationContext());
         ConfigurePreferences cp = new ConfigurePreferences(this);
         boolean showAll = cp.getShowNonPeriods();
         
-        List<PeriodEntity> list = dh.selectAll(showAll);
+        periodList = dh.selectAll(showAll);
         dh.closeDb();
 
-        for (PeriodEntity periodEntity : list) {
-        	
-            LinearLayout line = new LinearLayout(this);
-            line.setLayoutParams(lparam2);
-            line.setMinimumHeight(60);
-            line.setOrientation(LinearLayout.VERTICAL);
-            line.setBackgroundColor(Color.WHITE);
-            line.setPadding(0, 2, 0, 2);
+        for (PeriodEntity periodEntity : periodList) {
 
-            TextView titleView = new TextView(this);
-            titleView.setText(periodEntity.getTs_dateString());
-            titleView.setTypeface(titleView.getTypeface(), Typeface.BOLD);
-            titleView.setTextSize(14);
-            titleView.setTextColor(Color.BLACK);
-            titleView.setLines(1);
-            titleView.setPadding(20, 20, 0, 20);
-            line.addView(titleView);
-            
-            ImageView imgView = new ImageView(this);
-            imgView.setImageResource(periodEntity.isIs_period()?R.drawable.yes:R.drawable.no);
-            imgView.setMinimumHeight(60);
-            imgView.setMaxWidth(60);
-            imgView.setPadding(5, 5, 5, 5);
-            line.addView(imgView);
+        	StringBuffer line = new StringBuffer();
+        	line.append(periodEntity.getTs_dateString());
+        	line.append(": ");
+        	line.append(periodEntity.isIs_period()?"YES":"NO");
 
-            lines.addView(line);
+            stringContent.add(line.toString());
 			
 		}
 	}
@@ -94,9 +103,7 @@ public class YAPTActivity extends Activity {
 			DataHelper dh = new DataHelper(this);
 			dh.deleteAll();
 			dh.closeDb();
-			Vibrator v = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-			v.vibrate(5000);
-			updateContents();
+			finish();
     		break;
     	default: 
 			Toast.makeText(this, "Feature not implemented yet ", Toast.LENGTH_SHORT).show();
