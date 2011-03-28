@@ -14,6 +14,7 @@ public class ConfigureActivity extends Activity {
 	private CheckBox radio;
 	private CheckBox sound;
 	private CheckBox vibrate;
+	private CheckBox only95;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,8 @@ public class ConfigureActivity extends Activity {
 		radio = (CheckBox) findViewById(R.id.check0);
 		sound = (CheckBox) findViewById(R.id.config_soundCheck1);
 		vibrate = (CheckBox) findViewById(R.id.config_vibrateCheck1);
-		cp.loadPreferences(seekBar, radio, sound, vibrate);
+		only95 = (CheckBox) findViewById(R.id.config_notify95Check1);
+		cp.loadPreferences(seekBar, radio, sound, vibrate, only95);
 		
 		
 	}
@@ -39,7 +41,7 @@ public class ConfigureActivity extends Activity {
 
     		//save preferences     		
 			ConfigurePreferences cp = new ConfigurePreferences(ConfigureActivity.this);
-    		cp.savePreferences(seekBar.getProgress(), radio.isChecked(), sound.isChecked(), vibrate.isChecked());
+    		cp.savePreferences(seekBar.getProgress(), radio.isChecked(), sound.isChecked(), vibrate.isChecked(), only95.isChecked());
     		
 			ConfigureActivity.this.finish();
 			

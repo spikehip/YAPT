@@ -17,6 +17,7 @@
 	<LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal">
 		<CheckBox android:id="@+id/config_soundCheck1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Notification sound"></CheckBox>
 		<CheckBox android:text="Vibrate" android:id="@+id/config_vibrateCheck1" android:layout_width="wrap_content" android:layout_height="wrap_content"></CheckBox>
-	</LinearLayout>	
+	</LinearLayout>
+	<CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/config_notify95Check1" android:text="Notify only during 9-5 working hours"></CheckBox>	
 	<Button android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Save" android:id="@+id/configure_savebutton"></Button>
 </LinearLayout>
