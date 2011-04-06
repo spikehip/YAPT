@@ -42,7 +42,11 @@ public class YAPTAppWidgetProvider extends AppWidgetProvider {
 		
     	rv.setViewVisibility(R.id.widget_no, View.GONE);
     	rv.setViewVisibility(R.id.widget_yes, View.GONE);
-    	rv.setViewVisibility(R.id.widget_text, View.VISIBLE);
+    	rv.setViewVisibility(R.id.widget_answeredLayout, View.VISIBLE);
+    	
+    	Intent intent1 = new Intent(context, YAPTActivity.class);
+    	PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+    	rv.setOnClickPendingIntent(R.id.widget_openApp, pendingIntent);
 		
         appWidgetManager.updateAppWidget(appWidgetId, rv);
 	}
@@ -55,7 +59,7 @@ public class YAPTAppWidgetProvider extends AppWidgetProvider {
 		
     	rv.setViewVisibility(R.id.widget_no, View.VISIBLE);
     	rv.setViewVisibility(R.id.widget_yes, View.VISIBLE);
-    	rv.setViewVisibility(R.id.widget_text, View.GONE);
+    	rv.setViewVisibility(R.id.widget_answeredLayout, View.GONE);
     	
         Intent intent1 = new Intent(context, InsertService.class);
         intent1.setAction(YAPTActivity.ACTION_WIDGET_YES);

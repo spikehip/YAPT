@@ -58,7 +58,6 @@ public class YAPTActivity extends ListActivity {
     }
 
     protected PeriodEntity getPeriodById(int position) {
-		// TODO Auto-generated method stub
 		return periodList.get(position);
 	}
 
@@ -93,6 +92,9 @@ public class YAPTActivity extends ListActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch(item.getItemId()) {
+    	case R.id.calendar_menu_add:
+    		YAPTActivity.this.startActivity(new Intent(YAPTActivity.this, AddnewActivity.class));    		    		
+    		break;
     	case R.id.calendar_menu_settings:     		
     		YAPTActivity.this.startActivity(new Intent(YAPTActivity.this, ConfigureActivity.class));    		    		
     		break;

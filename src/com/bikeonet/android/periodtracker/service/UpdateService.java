@@ -1,33 +1,35 @@
 package com.bikeonet.android.periodtracker.service;
 
-import java.io.IOException;
 import java.util.Date;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.IBinder;
-import android.os.Vibrator;
 import android.util.Log;
 
+import com.bikeonet.android.periodtracker.AddnewActivity;
 import com.bikeonet.android.periodtracker.util.ConfigurePreferences;
 import com.bikeonet.android.periodtracker.util.DataHelper;
 import com.bikeonet.android.periodtracker.widget.YAPTAppWidgetProvider;
 
 public class UpdateService extends Service {
 
+	private static final int NOTIFICATION_ID = 1;
+	
 	@Override
 	public void onStart(Intent intent, int startId) {
 		Context context = getApplicationContext();
 		AppWidgetManager appWidgetManager = AppWidgetManager
 				.getInstance(context);
-		int appWidgetId = intent.getExtras().getInt(
-				AppWidgetManager.EXTRA_APPWIDGET_ID);
+		Integer appWidgetId = null;
+		if (intent.getExtras() != null ) {
+			appWidgetId = intent.getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
+		}
 
 		DataHelper dh = new DataHelper(context);
 		ConfigurePreferences pref = new ConfigurePreferences(context);
@@ -39,7 +41,8 @@ public class UpdateService extends Service {
 				: "today is not answered");
 
 		if (isAnswered) {
-			YAPTAppWidgetProvider.setWidgetAnswered(context, appWidgetManager,
+			if (appWidgetId != null)
+				YAPTAppWidgetProvider.setWidgetAnswered(context, appWidgetManager,
 					appWidgetId);
 		} else {
 			Date current = new Date();
@@ -48,40 +51,26 @@ public class UpdateService extends Service {
 					|| (pref.getOnly95() && (current.getHours() >= 9 && current
 							.getHours() <= 17))) {
 
+				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+				int icon = android.R.drawable.stat_sys_warning;
+				CharSequence tickerText = "Answer a question!";
+				Notification notification = new Notification(icon, tickerText, System.currentTimeMillis());
+				CharSequence contentText = "Do you have your period today?";
+				Intent answerIntent = new Intent(this, AddnewActivity.class);
+				PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, answerIntent, 0);
+				notification.setLatestEventInfo(context, tickerText, contentText, pendingIntent);
+				
 				if (pref.getVibrate()) {
-					Vibrator v = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-					v.vibrate(1000);
-				}
+					notification.defaults |= Notification.DEFAULT_VIBRATE;				}
 				if (pref.getPlaySound()) {
-					Uri alert = RingtoneManager
-							.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-					MediaPlayer mMediaPlayer = new MediaPlayer();
-					try {
-						mMediaPlayer.setDataSource(context, alert);
-						final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-						if (audioManager
-								.getStreamVolume(AudioManager.STREAM_ALARM) != 0) {
-							mMediaPlayer.prepare();
-							mMediaPlayer.setLooping(false);
-							// mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
-							mMediaPlayer.start();
-						}
-					} catch (IllegalArgumentException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (SecurityException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (IllegalStateException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					notification.defaults |= Notification.DEFAULT_SOUND;										
 				}
+				notification.flags |= Notification.FLAG_AUTO_CANCEL;				
+				notificationManager.notify(NOTIFICATION_ID, notification);
+				
 			}
-			YAPTAppWidgetProvider.setWidgetUnanswered(context,
+			if (appWidgetId != null)			
+				YAPTAppWidgetProvider.setWidgetUnanswered(context,
 					appWidgetManager, appWidgetId);
 		}
 

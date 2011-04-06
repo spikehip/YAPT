@@ -29,6 +29,7 @@
 		<activity android:name="AboutActivity"></activity>
 		<activity android:name="ConfigureActivity"></activity>
 		<activity android:name="DetailsActivity"></activity>
+		<activity android:name="AddnewActivity"></activity>
 		<service android:name=".service.InsertService"></service>
 		<service android:name=".service.UpdateService"></service>
     </application>

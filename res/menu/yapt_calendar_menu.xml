@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/calendar_menu_add" android:icon="@android:drawable/ic_menu_add" android:title="add new"></item>
     <item android:id="@+id/calendar_menu_removeall" android:icon="@drawable/no" android:title="remove all"></item>
-    <item android:id="@+id/calendar_menu_settings" android:icon="@drawable/wrench" android:title="settings"></item>
-    <item android:id="@+id/calendar_menu_about" android:icon="@drawable/icon" android:title="about"></item>
+    <item android:id="@+id/calendar_menu_settings" android:icon="@android:drawable/ic_menu_preferences" android:title="settings"></item>
+    <item android:id="@+id/calendar_menu_about" android:icon="@android:drawable/ic_menu_help" android:title="about"></item>
 </menu>

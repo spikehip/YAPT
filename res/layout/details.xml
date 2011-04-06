@@ -9,7 +9,7 @@
 			android:orientation="vertical">
 			<CheckBox android:id="@+id/details_isPeriodCheck1"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
-				android:text="Pill taken" android:clickable="false"></CheckBox>
+				android:text="I have my period" android:clickable="false"></CheckBox>
 			<TextView android:id="@+id/textView1" android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:text="Strength"></TextView>
 			<RatingBar android:id="@+id/details_ratingBar1"
