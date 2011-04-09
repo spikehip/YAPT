@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bikeonet.android.periodtracker.entity.PeriodEntity;
+import com.bikeonet.android.periodtracker.service.UpdateService;
 import com.bikeonet.android.periodtracker.util.ConfigurePreferences;
 import com.bikeonet.android.periodtracker.util.DataHelper;
 
@@ -36,10 +37,21 @@ public class YAPTActivity extends Activity {
 
     @Override
 	protected void onStart() {
+    	
+    	/**
+    	 * refresh contents if required
+    	 */
     	if ( getIntent()!=null && getIntent().getAction()!=null && getIntent().getAction().equals(ACTION_UPDATE_CONTENTS)
     			){ 
     		updateContents();
     	}
+    	
+    	/**
+    	 * start a background update service
+    	 */
+        Intent intent3 = new Intent(this, UpdateService.class);
+        startService(intent3);
+    	
 		super.onStart();
 	}
 
