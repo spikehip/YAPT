@@ -21,10 +21,11 @@ public final class R {
     public static final class id {
         public static final int about_okbutton1=0x7f080001;
         public static final int about_textView1=0x7f080000;
-        public static final int calendar_menu_about=0x7f08001f;
+        public static final int calendar_menu_about=0x7f080020;
         public static final int calendar_menu_add=0x7f08001c;
-        public static final int calendar_menu_removeall=0x7f08001d;
-        public static final int calendar_menu_settings=0x7f08001e;
+        public static final int calendar_menu_delete=0x7f08001d;
+        public static final int calendar_menu_removeall=0x7f08001e;
+        public static final int calendar_menu_settings=0x7f08001f;
         public static final int check0=0x7f080003;
         public static final int config_notify95Check1=0x7f080006;
         public static final int config_soundCheck1=0x7f080004;

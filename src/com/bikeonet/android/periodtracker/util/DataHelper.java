@@ -118,6 +118,20 @@ public class DataHelper {
 		return b;
 	}
 
+	public void removeToday() { 
+		Cursor cursor = this.db.query(TABLE_NAME, new String[] { "id",
+				"ts_date", "is_period", "took_pill", "strength", "notes" },
+				"ts_date=?", new String[] { format.format(new Date()) }, null,
+				null, null);
+		if ( cursor.moveToFirst() ) {
+			long id = cursor.getLong(0);
+			this.db.delete(TABLE_NAME, "id=?", new String[] { Long.toString(id) } );
+		}
+		if (cursor != null && !cursor.isClosed()) {
+			cursor.close();
+		}
+	}
+	
 	public void closeDb() {
 		this.db.close();
 	}

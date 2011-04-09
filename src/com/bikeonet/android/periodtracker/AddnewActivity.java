@@ -3,6 +3,7 @@ package com.bikeonet.android.periodtracker;
 import java.util.Date;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.util.Log;
@@ -52,29 +53,30 @@ public class AddnewActivity extends Activity {
 
 	public void onSaveClicked(View sender) {
 
-			DataHelper dh = new DataHelper(this);
-			CheckBox isPeriod = (CheckBox) findViewById(R.id.details_isPeriodCheck1);
-			CheckBox isPillBox = (CheckBox) findViewById(R.id.details_tookPillCheck1);
-			TextView notesText = (TextView) findViewById(R.id.details_notesText1);
-			RatingBar strengthBar = (RatingBar) findViewById(R.id.details_ratingBar1);
+		DataHelper dh = new DataHelper(this);
+		CheckBox isPeriod = (CheckBox) findViewById(R.id.details_isPeriodCheck1);
+		CheckBox isPillBox = (CheckBox) findViewById(R.id.details_tookPillCheck1);
+		TextView notesText = (TextView) findViewById(R.id.details_notesText1);
+		RatingBar strengthBar = (RatingBar) findViewById(R.id.details_ratingBar1);
 
-			boolean took_pill = isPillBox.isChecked();
-			String notes = notesText.getText().toString();
-			float strength = strengthBar.getRating();
+		boolean took_pill = isPillBox.isChecked();
+		String notes = notesText.getText().toString();
+		float strength = strengthBar.getRating();
 
-			try {
-				long id = dh.insert(new Date(), isPeriod.isChecked());
-				if ( id != -1 ) { 
-					dh.update(id, took_pill, strength, notes);
-					Toast.makeText(this, "Saved changes.", Toast.LENGTH_SHORT).show();
-				}
-			} catch (SQLiteConstraintException e) {
-				Log.e("InsertService", e.getMessage());
-				Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG)
-						.show();
+		try {
+			long id = dh.insert(new Date(), isPeriod.isChecked());
+			if ( id != -1 ) { 
+				dh.update(id, took_pill, strength, notes);
+				Toast.makeText(this, "Saved changes.", Toast.LENGTH_SHORT).show();
 			}
-		
-		AddnewActivity.this.finish();
+		} catch (SQLiteConstraintException e) {
+			Log.e("InsertService", e.getMessage());
+			Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG)
+					.show();
+		}
+		Intent mainIntent = new Intent(AddnewActivity.this, YAPTActivity.class);
+		mainIntent.setAction(YAPTActivity.ACTION_UPDATE_CONTENTS);
+		startActivity(mainIntent);
 	}
 
 	public void onBackClicked(View sender) {

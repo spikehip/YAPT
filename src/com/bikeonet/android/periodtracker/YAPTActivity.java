@@ -32,7 +32,18 @@ public class YAPTActivity extends Activity {
     public static final String ACTION_WIDGET_NO = "com.bikeonet.android.periodtracker.widget.no";
     public static final String EXTRA_PERIODENTITY_ID = "com.bikeonet.android.periodtracker.periodentity.id";
 
-    private List<PeriodEntity> periodList;
+	public static final String ACTION_UPDATE_CONTENTS = "com.bikeonet.android.periodtracker.YAPTActivity.updatecontents";
+
+    @Override
+	protected void onStart() {
+    	if ( getIntent()!=null && getIntent().getAction()!=null && getIntent().getAction().equals(ACTION_UPDATE_CONTENTS)
+    			){ 
+    		updateContents();
+    	}
+		super.onStart();
+	}
+
+	private List<PeriodEntity> periodList;
     private LinearLayout listScrollView;
     
 	/** Called when the activity is first created. */
@@ -43,6 +54,8 @@ public class YAPTActivity extends Activity {
         listScrollView = (LinearLayout) findViewById(R.id.listlinearLayout1);
         updateContents();
     }
+    
+    
 
     protected PeriodEntity getPeriodById(int position) {
 		return periodList.get(position);
@@ -86,6 +99,7 @@ public class YAPTActivity extends Activity {
     	item.setMinimumHeight(80);
     	item.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, 80));
     	TextView label = (TextView) item.findViewById(R.id.itemText1);
+    	label.setPadding(20, 0, 0, 0);
 //    	label.setTextColor(Color.WHITE);
     	label.setTypeface(Typeface.DEFAULT_BOLD);
     	label.setTextSize(24);
@@ -109,7 +123,8 @@ public class YAPTActivity extends Activity {
     	case R.id.calendar_menu_add:
 			dh = new DataHelper(this);
 			if ( !dh.isPeriodDay(new Date()) ) {
-				YAPTActivity.this.startActivity(new Intent(YAPTActivity.this, AddnewActivity.class));
+				Intent addIntent = new Intent(YAPTActivity.this, AddnewActivity.class);
+				YAPTActivity.this.startActivity(addIntent);
 			}
 			else { 
 				Toast.makeText(this, "Next time gadget, next time!", Toast.LENGTH_SHORT).show();					
@@ -126,12 +141,42 @@ public class YAPTActivity extends Activity {
     	case R.id.calendar_menu_removeall:
     		doDeleteAll();
     		break;
+    	case R.id.calendar_menu_delete:
+    		dh = new DataHelper(this);
+			if ( dh.isPeriodDay(new Date()) ) {
+				doDeleteToday();
+			}
+			else {
+				Toast.makeText(this, "Sorry, no record to delete yet!", Toast.LENGTH_SHORT).show();					
+			}
+			break;
     	default: 
 			Toast.makeText(this, "Feature not implemented yet ", Toast.LENGTH_SHORT).show();
 			break;
     	}
     	return true;
     }
+
+	private void doDeleteToday() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("Are you sure you want to remove today's record?")
+		       .setCancelable(false)
+		       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		   			DataHelper dh = new DataHelper(YAPTActivity.this);			
+					dh.removeToday();
+					dh.closeDb();
+					updateContents();
+		           }
+		       })
+		       .setNegativeButton("No", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		                dialog.cancel();
+		           }
+		       });
+		AlertDialog alert = builder.create();	
+		alert.show();
+	}
 
 	private void doDeleteAll() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
