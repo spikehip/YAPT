@@ -3,7 +3,9 @@ package com.bikeonet.android.periodtracker;
 import java.util.Date;
 
 import android.app.Activity;
+import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -60,15 +62,18 @@ public class AddnewActivity extends Activity {
 			String notes = notesText.getText().toString();
 			float strength = strengthBar.getRating();
 
-			long id = dh.insert(new Date(), isPeriod.isChecked());
-			if ( id != -1 ) { 
-				dh.update(id, took_pill, strength, notes);
-				Toast.makeText(this, "Saved changes.", Toast.LENGTH_SHORT).show();
+			try {
+				long id = dh.insert(new Date(), isPeriod.isChecked());
+				if ( id != -1 ) { 
+					dh.update(id, took_pill, strength, notes);
+					Toast.makeText(this, "Saved changes.", Toast.LENGTH_SHORT).show();
+				}
+			} catch (SQLiteConstraintException e) {
+				Log.e("InsertService", e.getMessage());
+				Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG)
+						.show();
 			}
-			else {
-				Toast.makeText(this, "Save failed.", Toast.LENGTH_SHORT).show();
-			}
-
+		
 		AddnewActivity.this.finish();
 	}
 

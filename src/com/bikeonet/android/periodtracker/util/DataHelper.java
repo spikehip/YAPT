@@ -19,11 +19,13 @@ public class DataHelper {
 
 	public static final SimpleDateFormat format = new SimpleDateFormat(
 			"yyyy-MM-dd");
+	
 	private static final String DATABASE_NAME = "Period.db";
 	private static final String TABLE_NAME = "periodlog";
 	private static final String CREATE_TABLE_SQL = "create table " + TABLE_NAME
 			+ " (" + "id integer primary key autoincrement,"
-			+ "ts_date varchar(10) not null," + "is_period integer,"
+			+ "ts_date varchar(10) not null," 
+			+ "is_period integer,"
 			+ "took_pill integer," + "strength integer,"
 			+ "notes varchar(250));";
 	private static final String CREATE_INDEX_SQL = "create unique index idx_periodlog_ts_date on periodlog ( ts_date );";
@@ -83,7 +85,7 @@ public class DataHelper {
 		List<PeriodEntity> list = new ArrayList<PeriodEntity>();
 		Cursor cursor = this.db.query(TABLE_NAME, new String[] { "id",
 				"ts_date", "is_period", "took_pill", "strength", "notes" },
-				showAll ? "" : "is_period=1", null, null, null, "ts_date");
+				showAll ? "" : "is_period=1", null, null, null, "ts_date DESC");
 		if (cursor.moveToFirst()) {
 			do {
 				PeriodEntity pe = new PeriodEntity();

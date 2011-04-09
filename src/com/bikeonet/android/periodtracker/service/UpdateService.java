@@ -45,7 +45,7 @@ public class UpdateService extends Service {
 				YAPTAppWidgetProvider.setWidgetAnswered(context, appWidgetManager,
 					appWidgetId);
 		} else {
-			Date current = new Date();
+			final Date current = new Date();
 
 			if (!pref.getOnly95()
 					|| (pref.getOnly95() && (current.getHours() >= 9 && current
