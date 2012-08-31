@@ -23,7 +23,7 @@ public class DataHelper {
 	private static final String DATABASE_NAME = "Period.db";
 	private static final String TABLE_NAME = "periodlog";
 	private static final String CREATE_TABLE_SQL = "create table " + TABLE_NAME
-			+ " (" + "id integer primary key autoincrement,"
+			+ " (" + "_id integer primary key autoincrement,"
 			+ "ts_date varchar(10) not null," 
 			+ "is_period integer,"
 			+ "took_pill integer," + "strength integer,"
@@ -42,7 +42,7 @@ public class DataHelper {
 
 	private static final String UPDATE = "update " + TABLE_NAME + 
 										 " SET took_pill=?, strength=?, notes=?" +
-										 " WHERE id=?";
+										 " WHERE _id=?";
 	
 	public DataHelper(Context context) {
 		this.context = context;
@@ -81,11 +81,15 @@ public class DataHelper {
 		this.db.delete(TABLE_NAME, "ts_date=" + tsDate.getTime(), null);
 	}
 
+	public Cursor getSelectAllCursor(boolean showAll) { 
+		return this.db.query(TABLE_NAME, new String[] { "_id",
+				"ts_date", "is_period", "took_pill", "strength", "notes" },
+				showAll ? "" : "is_period=1", null, null, null, "ts_date DESC");		
+	}
+	
 	public List<PeriodEntity> selectAll(boolean showAll) {
 		List<PeriodEntity> list = new ArrayList<PeriodEntity>();
-		Cursor cursor = this.db.query(TABLE_NAME, new String[] { "id",
-				"ts_date", "is_period", "took_pill", "strength", "notes" },
-				showAll ? "" : "is_period=1", null, null, null, "ts_date DESC");
+		Cursor cursor = getSelectAllCursor(showAll);
 		if (cursor.moveToFirst()) {
 			do {
 				PeriodEntity pe = new PeriodEntity();
@@ -107,7 +111,7 @@ public class DataHelper {
 	}
 
 	public boolean isPeriodDay(Date tsDate) {
-		Cursor cursor = this.db.query(TABLE_NAME, new String[] { "id",
+		Cursor cursor = this.db.query(TABLE_NAME, new String[] { "_id",
 				"ts_date", "is_period", "took_pill", "strength", "notes" },
 				"ts_date=?", new String[] { format.format(tsDate) }, null,
 				null, null);
@@ -119,13 +123,13 @@ public class DataHelper {
 	}
 
 	public void removeToday() { 
-		Cursor cursor = this.db.query(TABLE_NAME, new String[] { "id",
+		Cursor cursor = this.db.query(TABLE_NAME, new String[] { "_id",
 				"ts_date", "is_period", "took_pill", "strength", "notes" },
 				"ts_date=?", new String[] { format.format(new Date()) }, null,
 				null, null);
 		if ( cursor.moveToFirst() ) {
 			long id = cursor.getLong(0);
-			this.db.delete(TABLE_NAME, "id=?", new String[] { Long.toString(id) } );
+			this.db.delete(TABLE_NAME, "_id=?", new String[] { Long.toString(id) } );
 		}
 		if (cursor != null && !cursor.isClosed()) {
 			cursor.close();
@@ -158,9 +162,9 @@ public class DataHelper {
 	public PeriodEntity selectById(Long id) {
 		PeriodEntity pe = new PeriodEntity();
 		
-		Cursor cursor = this.db.query(TABLE_NAME, new String[] { "id",
+		Cursor cursor = this.db.query(TABLE_NAME, new String[] { "_id",
 				"ts_date", "is_period", "took_pill", "strength", "notes" },
-				"id=?", new String[] { id.toString() }, null, null, null);
+				"_id=?", new String[] { id.toString() }, null, null, null);
 		
 		if (cursor.moveToFirst()) {
 			pe.setId(cursor.getLong(0));

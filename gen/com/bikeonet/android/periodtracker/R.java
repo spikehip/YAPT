@@ -21,11 +21,11 @@ public final class R {
     public static final class id {
         public static final int about_okbutton1=0x7f080001;
         public static final int about_textView1=0x7f080000;
-        public static final int calendar_menu_about=0x7f080020;
-        public static final int calendar_menu_add=0x7f08001c;
-        public static final int calendar_menu_delete=0x7f08001d;
-        public static final int calendar_menu_removeall=0x7f08001e;
-        public static final int calendar_menu_settings=0x7f08001f;
+        public static final int calendar_menu_about=0x7f080021;
+        public static final int calendar_menu_add=0x7f08001d;
+        public static final int calendar_menu_delete=0x7f08001e;
+        public static final int calendar_menu_removeall=0x7f08001f;
+        public static final int calendar_menu_settings=0x7f080020;
         public static final int check0=0x7f080003;
         public static final int config_notify95Check1=0x7f080006;
         public static final int config_soundCheck1=0x7f080004;
@@ -37,21 +37,22 @@ public final class R {
         public static final int details_ratingBar1=0x7f08000c;
         public static final int details_saveButton1=0x7f080010;
         public static final int details_tookPillCheck1=0x7f08000d;
+        public static final int frameLayout1=0x7f080016;
         public static final int itemImage1=0x7f080014;
         public static final int itemInnerLayout=0x7f080012;
         public static final int itemText1=0x7f080013;
         public static final int linearLayout1=0x7f080002;
         public static final int linearLayout2=0x7f080009;
         public static final int listScroll1=0x7f080015;
-        public static final int listlinearLayout1=0x7f080016;
+        public static final int listlinearLayout1=0x7f080017;
         public static final int scrollView1=0x7f080008;
         public static final int textView1=0x7f08000b;
         public static final int textView2=0x7f08000e;
-        public static final int widget_answeredLayout=0x7f080017;
-        public static final int widget_no=0x7f08001b;
-        public static final int widget_openApp=0x7f080019;
-        public static final int widget_text=0x7f080018;
-        public static final int widget_yes=0x7f08001a;
+        public static final int widget_answeredLayout=0x7f080018;
+        public static final int widget_no=0x7f08001c;
+        public static final int widget_openApp=0x7f08001a;
+        public static final int widget_text=0x7f080019;
+        public static final int widget_yes=0x7f08001b;
     }
     public static final class layout {
         public static final int about=0x7f030000;
